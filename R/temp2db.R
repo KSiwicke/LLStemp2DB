@@ -181,8 +181,8 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
         Xfoff <- as.numeric(testOnedf$coords.x1[101] - as.data.frame(ptsOneen$coords.x1[1]))
         Yfoff <- as.numeric(testOnedf$coords.x2[101] - as.data.frame(ptsOneen$coords.x2[1]))
         
-        testOnedf$long2 <- testOnedf$Longitude - (((101 - testOnedf$per) / 100) * Xioff) - (((testOnedf$per - 1) / 100) * Xfoff)
-        testOnedf$lat2 <- testOnedf$Latitude - (((101 - testOnedf$per) / 100) * Yioff) - (((testOnedf$per - 1) / 100) * Yfoff)
+        testOnedf$long2 <- testOnedf$coords.x1 - (((101 - testOnedf$per) / 100) * Xioff) - (((testOnedf$per - 1) / 100) * Xfoff)
+        testOnedf$lat2 <- testOnedf$coords.x2 - (((101 - testOnedf$per) / 100) * Yioff) - (((testOnedf$per - 1) / 100) * Yfoff)
         
         Lat2m <- testOnedf[row, 5]
         Lon2m <- testOnedf[row, 4] 
@@ -216,8 +216,8 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
           Xfoff2 <- as.numeric(testTwodf$coords.x1[101] - as.data.frame(ptsTwoen$coords.x1[1]))
           Yfoff2 <- as.numeric(testTwodf$coords.x2[101] - as.data.frame(ptsTwoen$coords.x2[1]))
           
-          testTwodf$long2 <- testTwodf$Longitude - (((101 - testTwodf$per) / 100) * Xioff2) - (((testTwodf$per - 1) / 100) * Xfoff2)
-          testTwodf$lat2 <- testTwodf$Latitude - (((101 - testTwodf$per) / 100) * Yioff2) - (((testTwodf$per - 1) / 100) * Yfoff2)
+          testTwodf$long2 <- testTwodf$coords.x1 - (((101 - testTwodf$per) / 100) * Xioff2) - (((testTwodf$per - 1) / 100) * Xfoff2)
+          testTwodf$lat2 <- testTwodf$coords.x2 - (((101 - testTwodf$per) / 100) * Yioff2) - (((testTwodf$per - 1) / 100) * Yfoff2)
           
           # If the TDR is only on the second haul, and the hachi numbers don't actually start at 1
           if (hachTDR$hachi > 90) {
