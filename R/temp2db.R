@@ -176,10 +176,10 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
         ptsOneen <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("end.lon", "end.lat")], proj4string = sp::CRS("+proj=longlat")),
                                            sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
         
-        Xioff <- as.numeric(testOnedf$Longitude[1] - as.data.frame(ptsOnest$start.lon[1]))
-        Yioff <- as.numeric(testOnedf$Latitude[1] - as.data.frame(ptsOnest$start.lat[1]))
-        Xfoff <- as.numeric(testOnedf$Longitude[101] - as.data.frame(ptsOneen$end.lon[1]))
-        Yfoff <- as.numeric(testOnedf$Latitude[101] - as.data.frame(ptsOneen$end.lat[1]))
+        Xioff <- as.numeric(testOnedf$coords.x1[1] - as.data.frame(ptsOnest$coords.x1[1]))
+        Yioff <- as.numeric(testOnedf$coords.x2[1] - as.data.frame(ptsOnest$coords.x2[1]))
+        Xfoff <- as.numeric(testOnedf$coords.x1[101] - as.data.frame(ptsOneen$coords.x1[1]))
+        Yfoff <- as.numeric(testOnedf$coords.x2[101] - as.data.frame(ptsOneen$coords.x2[1]))
         
         testOnedf$long2 <- testOnedf$Longitude - (((101 - testOnedf$per) / 100) * Xioff) - (((testOnedf$per - 1) / 100) * Xfoff)
         testOnedf$lat2 <- testOnedf$Latitude - (((101 - testOnedf$per) / 100) * Yioff) - (((testOnedf$per - 1) / 100) * Yfoff)
@@ -211,10 +211,10 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
           ptsTwoen <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("end.lon", "end.lat")], proj4string = sp::CRS("+proj=longlat")),
                                              sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
           
-          Xioff2 <- as.numeric(testTwodf$Longitude[1] - as.data.frame(ptsTwost$start.lon[1]))
-          Yioff2 <- as.numeric(testTwodf$Latitude[1] - as.data.frame(ptsTwost$start.lat[1]))
-          Xfoff2 <- as.numeric(testTwodf$Longitude[101] - as.data.frame(ptsTwoen$end.lon[1]))
-          Yfoff2 <- as.numeric(testTwodf$Latitude[101] - as.data.frame(ptsTwoen$end.lat[1]))
+          Xioff2 <- as.numeric(testTwodf$coords.x1[1] - as.data.frame(ptsTwost$coords.x1[1]))
+          Yioff2 <- as.numeric(testTwodf$coords.x2[1] - as.data.frame(ptsTwost$coords.x2[1]))
+          Xfoff2 <- as.numeric(testTwodf$coords.x1[101] - as.data.frame(ptsTwoen$coords.x1[1]))
+          Yfoff2 <- as.numeric(testTwodf$coords.x2[101] - as.data.frame(ptsTwoen$coords.x2[1]))
           
           testTwodf$long2 <- testTwodf$Longitude - (((101 - testTwodf$per) / 100) * Xioff2) - (((testTwodf$per - 1) / 100) * Xfoff2)
           testTwodf$lat2 <- testTwodf$Latitude - (((101 - testTwodf$per) / 100) * Yioff2) - (((testTwodf$per - 1) / 100) * Yfoff2)
