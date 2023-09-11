@@ -76,16 +76,16 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
       hach <- hachi[hachi$station == sta & !is.na(hachi$time), ]
       
       # If there is an upcast, get the time that the TDR hits the surface (ie, when that hachi is recorded by observer at the rail)
-      TDRtime <- ifelse (nrow(updat) == 0, NA, as.numeric(paste0(stringr::str_pad(hour(updat[nrow(updat), 4]), 
-                                                                         2, pad="0"), stringr::str_pad(minute(updat[nrow(updat), 4]), 2, pad="0"))))
+      TDRtime <- ifelse (nrow(updat) == 0, NA, as.numeric(paste0(stringr::str_pad(lubridate::hour(updat[nrow(updat), 4]), 
+                                                                         2, pad="0"), stringr::str_pad(lubridate::minute(updat[nrow(updat), 4]), 2, pad="0"))))
       
       # Using the TDR estimated time at the rail, estimate the hachi's time using a 10 minute window
       HachiTimeEst <- ceiling(ifelse (is.na(TDRtime) || TDRtime < min(hach$time) || 
                                         TDRtime > max(hach$time), NA, median(hach[!is.na(hach$time) & 
-                                                                                    hach$time < as.integer(paste0(stringr::str_pad(hour(updat[nrow(updat), 4]), 2, pad = "0"),
-                                                                                                                  stringr::str_pad(minute(updat[nrow(updat), 4]), 2, pad = "0"))) + 5 & 
-                                                                                    hach$time > as.integer(paste0(stringr::str_pad(hour(updat[nrow(updat), 4]), 2, pad = "0"),
-                                                                                                                  stringr::str_pad(minute(updat[nrow(updat), 4]), 2, pad = "0"))) - 5, "hachi"])))
+                                                                                    hach$time < as.integer(paste0(stringr::str_pad(lubridate::hour(updat[nrow(updat), 4]), 2, pad = "0"),
+                                                                                                                  stringr::str_pad(lubridate::minute(updat[nrow(updat), 4]), 2, pad = "0"))) + 5 & 
+                                                                                    hach$time > as.integer(paste0(stringr::str_pad(lubridate::hour(updat[nrow(updat), 4]), 2, pad = "0"),
+                                                                                                                  stringr::str_pad(lubridate::minute(updat[nrow(updat), 4]), 2, pad = "0"))) - 5, "hachi"])))
       
       # From the time estimated above, assign an estimated hachi number, and when that is NA, assign to skate 60, the presumed skate number
       HachiNumEst <- ifelse (is.na(HachiTimeEst), 60, HachiTimeEst)
