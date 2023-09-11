@@ -165,7 +165,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
         
         UTMzn <- floor((mean(setOnep$Longitude) + 180) / 6) + 1
         setUTM <- sp::spTransform(setOnep, sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
-        setOne <- sp::Lines(list(Line(setUTM)), ID = paste0(sta, "A"))
+        setOne <- sp::Lines(list(sp::Line(setUTM)), ID = paste0(sta, "A"))
         
         testOne <- sp::spsample(setOne, n = 101, type = "regular")
         testOnedf <- data.frame(testOne)
@@ -200,7 +200,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
           
           UTMzn2 <- floor((mean(setTwop$Longitude) + 180) / 6) + 1
           setUTM2 <- sp::spTransform(setTwop, sp::CRS(paste0("+proj=utm +zone=", UTMzn2, " +datum=WGS84 +units=km")))
-          setTwo <- sp::Lines(list(Line(setUTM2)), ID = paste0(sta, "B"))
+          setTwo <- sp::Lines(list(sp::Line(setUTM2)), ID = paste0(sta, "B"))
           
           testTwo <- sp::spsample(setTwo, n = 101, type = "regular")
           testTwodf <- data.frame(testTwo)
