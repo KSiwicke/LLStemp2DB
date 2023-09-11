@@ -1,6 +1,6 @@
 #' tmp2db
 #'
-#' @param year 
+#' @param yr 
 #' @param haul 
 #' @param hachi 
 #' @param sets 

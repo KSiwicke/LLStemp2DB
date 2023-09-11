@@ -7,13 +7,13 @@
 temp2db(yr = yr, haul = haul, hachi = hachi, sets = sets)
 }
 \arguments{
+\item{yr}{}
+
 \item{haul}{}
 
 \item{hachi}{}
 
 \item{sets}{}
-
-\item{year}{}
 }
 \description{
 tmp2db
