@@ -120,12 +120,12 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
       # Get UTM coordinates of start and end of set, used for visualizing errors
       pt <- data.frame(cbind(Lon, Lat))
       UTMzn <- floor((Lon + 180) / 6) + 1
-      setp <- sp::SpatialPoints(pt, proj4string = CRS("+proj=longlat"))
+      setp <- sp::SpatialPoints(pt, proj4string = sp::CRS("+proj=longlat"))
       
-      ptsOnest <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("start.lon", "start.lat")], proj4string = CRS("+proj=longlat")), 
-                                         CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
-      ptsOneen <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("end.lon", "end.lat")], proj4string = CRS("+proj=longlat")),
-                                         CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+      ptsOnest <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("start.lon", "start.lat")], proj4string = sp::CRS("+proj=longlat")), 
+                                         sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+      ptsOneen <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("end.lon", "end.lat")], proj4string = sp::CRS("+proj=longlat")),
+                                         sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
       
       # If there are more than one haul at a station, such as normal two-haul station
       if (length(unique(hach$haul)) > 1) {
@@ -138,10 +138,10 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
         
         chx <- rbind(one, two, hachTDR)
         
-        ptsTwost <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("start.lon", "start.lat")], proj4string = CRS("+proj=longlat")), 
-                                           CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
-        ptsTwoen <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("end.lon", "end.lat")], proj4string = CRS("+proj=longlat")),
-                                           CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+        ptsTwost <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("start.lon", "start.lat")], proj4string = sp::CRS("+proj=longlat")), 
+                                           sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+        ptsTwoen <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("end.lon", "end.lat")], proj4string = sp::CRS("+proj=longlat")),
+                                           sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
         
         if (hachTDR$hachi > 90) {
           row <- round(100 * ((hachTDR$hachi - min(hach[hach$haul == haulTwo[, "haul"], "hachi"]) - 1) / (max(hach[hach$haul == haulTwo[, "haul"], "hachi"]) - min(hach[hach$haul == haulTwo[, "haul"], "hachi"]) - 1)), 0)
@@ -151,7 +151,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
         }
       }
       
-      UTMp <- sp::spTransform(setp, CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
+      UTMp <- sp::spTransform(setp, sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
       UTMdf <- data.frame(UTMp)
       Lat2m <- UTMdf[, 2]
       Lon2m <- UTMdf[, 1]
@@ -161,20 +161,20 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
       # Not all stations have a reference, so they are left with their assumed straight line track
       
       if (paste0(sta, "A") %in% unique(sets$StnSet))  {
-        setOnep <- sp::SpatialPoints(sets[sets$StnSet == paste0(sta, "A"), c(3, 2)], proj4string = CRS("+proj=longlat"))
+        setOnep <- sp::SpatialPoints(sets[sets$StnSet == paste0(sta, "A"), c(3, 2)], proj4string = sp::CRS("+proj=longlat"))
         
         UTMzn <- floor((mean(setOnep$Longitude) + 180) / 6) + 1
-        setUTM <- sp::spTransform(setOnep, CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
+        setUTM <- sp::spTransform(setOnep, sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
         setOne <- sp::Lines(list(Line(setUTM)), ID = paste0(sta, "A"))
         
         testOne <- sp::spsample(setOne, n = 101, type = "regular")
         testOnedf <- data.frame(testOne)
         testOnedf$per <- c(1:101)
         
-        ptsOnest <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("start.lon", "start.lat")], proj4string = CRS("+proj=longlat")), 
-                                           CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
-        ptsOneen <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("end.lon", "end.lat")], proj4string = CRS("+proj=longlat")),
-                                           CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+        ptsOnest <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("start.lon", "start.lat")], proj4string = sp::CRS("+proj=longlat")), 
+                                           sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+        ptsOneen <- data.frame(sp::spTransform(sp::SpatialPoints(haulOne[, c("end.lon", "end.lat")], proj4string = sp::CRS("+proj=longlat")),
+                                           sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
         
         Xioff <- as.numeric(testOnedf$Longitude[1] - as.data.frame(ptsOnest$start.lon[1]))
         Yioff <- as.numeric(testOnedf$Latitude[1] - as.data.frame(ptsOnest$start.lat[1]))
@@ -188,28 +188,28 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
         Lon2m <- testOnedf[row, 4] 
         
         pt <- data.frame(cbind(Lon2m, Lat2m))
-        setp <- sp::SpatialPoints(pt, proj4string = CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
+        setp <- sp::SpatialPoints(pt, proj4string = sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
         
-        LLp <- sp::spTransform(setp, CRS(paste0("+proj=longlat")))
+        LLp <- sp::spTransform(setp, sp::CRS(paste0("+proj=longlat")))
         LLdf <- data.frame(LLp)
         Lat <- LLdf[, 2]
         Lon <- LLdf[, 1]
         
         if (length(unique(hach$Haul)) > 1) {
-          setTwop <- sp::SpatialPoints(sets[sets$StnSet == paste0(sta, "B"), c(3, 2)], proj4string = CRS("+proj=longlat"))
+          setTwop <- sp::SpatialPoints(sets[sets$StnSet == paste0(sta, "B"), c(3, 2)], proj4string = sp::CRS("+proj=longlat"))
           
           UTMzn2 <- floor((mean(setTwop$Longitude) + 180) / 6) + 1
-          setUTM2 <- sp::spTransform(setTwop, CRS(paste0("+proj=utm +zone=", UTMzn2, " +datum=WGS84 +units=km")))
+          setUTM2 <- sp::spTransform(setTwop, sp::CRS(paste0("+proj=utm +zone=", UTMzn2, " +datum=WGS84 +units=km")))
           setTwo <- sp::Lines(list(Line(setUTM2)), ID = paste0(sta, "B"))
           
           testTwo <- sp::spsample(setTwo, n = 101, type = "regular")
           testTwodf <- data.frame(testTwo)
           testTwodf$per <- c(1:101)
           
-          ptsTwost <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("start.lon", "start.lat")], proj4string = CRS("+proj=longlat")), 
-                                             CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
-          ptsTwoen <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("end.lon", "end.lat")], proj4string = CRS("+proj=longlat")),
-                                             CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+          ptsTwost <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("start.lon", "start.lat")], proj4string = sp::CRS("+proj=longlat")), 
+                                             sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
+          ptsTwoen <- data.frame(sp::spTransform(sp::SpatialPoints(haulTwo[, c("end.lon", "end.lat")], proj4string = sp::CRS("+proj=longlat")),
+                                             sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km"))))
           
           Xioff2 <- as.numeric(testTwodf$Longitude[1] - as.data.frame(ptsTwost$start.lon[1]))
           Yioff2 <- as.numeric(testTwodf$Latitude[1] - as.data.frame(ptsTwost$start.lat[1]))
@@ -225,9 +225,9 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
             Lon2m <- testTwodf[row, 4] 
             
             pt <- data.frame(cbind(Lon2m, Lat2m))
-            setp <- sp::SpatialPoints(pt, proj4string = CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
+            setp <- sp::SpatialPoints(pt, proj4string = sp::CRS(paste0("+proj=utm +zone=", UTMzn, " +datum=WGS84 +units=km")))
             
-            LLp <- sp::spTransform(setp, CRS(paste0("+proj=longlat")))
+            LLp <- sp::spTransform(setp, sp::CRS(paste0("+proj=longlat")))
             LLdf <- data.frame(LLp)
             Lat <- LLdf[, 2]
             Lon <- LLdf[, 1]
