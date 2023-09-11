@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-temp2db <- function(year = year, haul = haul, hachi = hachi, sets = sets) {
+temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets) {
   # Setup to record 0 to 820 meters, by 1-m increment
   Depth <- seq(0, 1200, 1)
   
