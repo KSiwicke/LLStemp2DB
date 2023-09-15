@@ -52,6 +52,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
     MinTemp <- round(min(bot$Temperature), 2)
     MaxTemp <- round(max(bot$Temperature), 2)
     NumScans <- nrow(bot)
+    Set <- coord$set
       
     # Downcast
     dodat <- tdr[tdr$Diff > 1.2 & tdr$Depth > 0, ]
@@ -64,7 +65,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
     newD <- data.frame(cbind(Depth,Temp1m))
     newD$Station <- sta
     newD$Year <- yr
-    newD$Set <- coord$set
+    newD$Set <- Set
     newDat <- na.omit(newD)
     
     StDat <- rbind(StDat, newDat)
