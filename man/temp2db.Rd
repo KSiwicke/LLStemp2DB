@@ -4,7 +4,7 @@
 \alias{temp2db}
 \title{tmp2db}
 \usage{
-temp2db(yr = yr, haul = haul, hachi = hachi, sets = sets)
+temp2db(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = coords)
 }
 \arguments{
 \item{yr}{}
@@ -13,7 +13,7 @@ temp2db(yr = yr, haul = haul, hachi = hachi, sets = sets)
 
 \item{hachi}{}
 
-\item{sets}{}
+\item{coords}{}
 }
 \description{
 tmp2db

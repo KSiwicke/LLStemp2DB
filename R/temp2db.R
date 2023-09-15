@@ -3,7 +3,8 @@
 #' @param yr 
 #' @param haul 
 #' @param hachi 
-#' @param sets 
+#' @param sets
+#' @param coords 
 #'
 #' @return
 #' @export
