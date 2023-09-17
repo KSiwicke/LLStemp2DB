@@ -11,7 +11,7 @@
 #'
 #' @examples
 temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = coords) {
-  # Setup to record 0 to 820 meters, by 1-m increment
+  # Setup to record 0 to 1200 meters, by 1-m increment
   Depth <- seq(0, 1200, 1)
   
   # Create data frames to store data
@@ -61,20 +61,11 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
     units(dodat$TimeDiff) <- "mins"
     dodat <- dodat[abs(dodat$TimeDiff) < 60, ]
       
-    Temp1m <- oce::oce.approx(dodat$Depth, dodat$Temperature, Depth, "rr")
-    newD <- data.frame(cbind(Depth,Temp1m))
-    newD$Station <- sta
-    newD$Year <- yr
-    newD$Set <- Set
-    newDat <- na.omit(newD)
-    
-    StDat <- rbind(StDat, newDat)
-      
     # Upcast
-    updat <- tdr[tdr$Diff < -1.2 & tdr$Depth > 0, ]
-    updat$TimeDiff <- updat$Time - mean(updat$Time)
-    units(updat$TimeDiff) <- "mins"
-    updat <- updat[abs(updat$TimeDiff) < 40, ]
+    # updat <- tdr[tdr$Diff < -1.2 & tdr$Depth > 0, ]
+    # updat$TimeDiff <- updat$Time - mean(updat$Time)
+    # units(updat$TimeDiff) <- "mins"
+    # updat <- updat[abs(updat$TimeDiff) < 40, ]
       
     # # Read in data for each hachi
     hach <- hachi[hachi$haul == h, ]
@@ -86,19 +77,20 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
     newBot <- data.frame(Year, Station_Number, Day_of_Year, Latitude, Longitude, Temperature, Minimum_Temperature, Maximum_Temperature, TDR_Depth, Minimum_TDR_Depth, Maximum_TDR_Depth,	Set)
     cleanBot <- rbind(cleanBot, newBot)
     
-    if (nrow(dodat) > 0) {
-      dodat$Year <- Year
-      dodat$Station_Number <- Station_Number
-      dodat$Day_of_Year <- Day_of_Year
-      dodat$Latitude <- Latitude
-      dodat$Longitude <- Longitude
-      dodat$TDR_Depth <- TDR_Depth
-      dodat$meanBot <- Temperature
-      dodat$minBot <- Minimum_Temperature
-      dodat$maxBot <- Maximum_Temperature
-      dodat$Set <- Set
+    Temperature <- oce::oce.approx(dodat$Depth, dodat$Temperature, Depth, "rr")
+    newD <- data.frame(cbind(Depth, Temperature))
+    newD$Station_Number <- sta
+    newD$Year <- yr
+    newD$Set <- Set
+    newDat <- na.omit(newD)
+    
+    if (nrow(newDat) > 0) {
+      newDat$Day_of_Year <- Day_of_Year
+      newDat$Latitude <- Latitude
+      newDat$Longitude <- Longitude
+      newDat$TDR_Depth <- Depth
       
-      cleanProf <- rbind(cleanProf, dodat)
+      cleanProf <- rbind(cleanProf, newDat)
     }
   }
   return(list(cleanBot, cleanProf))
