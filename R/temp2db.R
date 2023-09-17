@@ -88,7 +88,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
       newDat$Day_of_Year <- Day_of_Year
       newDat$Latitude <- Latitude
       newDat$Longitude <- Longitude
-      newDat$TDR_Depth <- Depth
+      newDat$TDR_Depth <- newDat$Depth
       
       cleanProf <- rbind(cleanProf, newDat)
     }
