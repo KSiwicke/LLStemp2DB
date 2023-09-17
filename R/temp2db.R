@@ -92,7 +92,7 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
       dodat$Day_of_Year <- Day_of_Year
       dodat$Latitude <- Latitude
       dodat$Longitude <- Longitude
-      dodat$maxZ <- TDR_Depth
+      dodat$TDR_Depth <- TDR_Depth
       dodat$meanBot <- Temperature
       dodat$minBot <- Minimum_Temperature
       dodat$maxBot <- Maximum_Temperature
