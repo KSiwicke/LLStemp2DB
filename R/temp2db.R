@@ -43,14 +43,14 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
     bot <- bot[abs(bot$Depth - mean(bot$Depth)) <= 5, ]
       
     Year <- yr
-    Julian <- round(mean(bot$Julian), 0)
-    Station <- sta
-    TDRDepth <- round(mean(bot$Depth), 1)
-    minDepth <- round(min(bot$Depth), 1)
-    maxDepth <- round(max(bot$Depth), 1)
-    MeanTemp <- round(mean(bot$Temperature), 2)
-    MinTemp <- round(min(bot$Temperature), 2)
-    MaxTemp <- round(max(bot$Temperature), 2)
+    Day_of_Year <- round(mean(bot$Julian), 0)
+    Station_Number <- sta
+    TDR_Depth <- round(mean(bot$Depth), 1)
+    Minimum_TDR_Depth <- round(min(bot$Depth), 1)
+    Maximum_TDR_Depth <- round(max(bot$Depth), 1)
+    Temperature <- round(mean(bot$Temperature), 2)
+    Minimum_Temperature <- round(min(bot$Temperature), 2)
+    Maximum_Temperature <- round(max(bot$Temperature), 2)
     NumScans <- nrow(bot)
     Set <- coord$set
       
@@ -80,22 +80,22 @@ temp2db <- function(yr = yr, haul = haul, hachi = hachi, sets = sets, coords = c
     hach <- hachi[hachi$haul == h, ]
     ObsDepth <- hach[hach$hachi == coord$hachi, "intrpdep"]
       
-    Lat <- coord$lat_deg + coord$lat_min / 60
-    Lon <- coord$lon_deg + coord$lon_min / 60
-
-    newBot <- data.frame(Year, Station, Julian, Lat, Lon, MeanTemp, MinTemp, MaxTemp, TDRDepth, minDepth, maxDepth, ObsDepth, Set)
+    Latitude <- coord$lat_deg + coord$lat_min / 60
+    Longitude <- coord$lon_deg + coord$lon_min / 60
+    
+    newBot <- data.frame(Year, Station_Number, Day_of_Year, Latitude, Longitude, Temperature, Minimum_Temperature, Maximum_Temperature, TDR_Depth, Minimum_TDR_Depth, Maximum_TDR_Depth,	Set)
     cleanBot <- rbind(cleanBot, newBot)
     
     if (nrow(dodat) > 0) {
       dodat$Year <- Year
-      dodat$Station <- Station
-      dodat$Julian <- Julian
-      dodat$Lat <- Lat
-      dodat$Lon <- Lon 
-      dodat$maxZ <- TDRDepth
-      dodat$meanBot <- MeanTemp
-      dodat$minBot <- MinTemp
-      dodat$maxBot <- MaxTemp
+      dodat$Station_Number <- Station_Number
+      dodat$Day_of_Year <- Day_of_Year
+      dodat$Latitude <- Latitude
+      dodat$Longitude <- Longitude
+      dodat$maxZ <- TDR_Depth
+      dodat$meanBot <- Temperature
+      dodat$minBot <- Minimum_Temperature
+      dodat$maxBot <- Maximum_Temperature
       dodat$Set <- Set
       
       cleanProf <- rbind(cleanProf, dodat)
